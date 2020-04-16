@@ -5,8 +5,6 @@ Bem, o **PocketLib** pode te ajudar a lembrar.
 Este projeto tem como objetivo ser o seu marcador de páginas virtual.
 A parte mais legal é que você não precisa de internet para isto :)
 
-## Em Breve
+<https://pocketlib.netlify.app/>
 
->Através de PWA
->On-line
->Ready-to-Go
+## Em breve mais funcionalidades
