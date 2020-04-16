@@ -2,6 +2,10 @@
     "short_name": "PocketLib",
     "name": "PocketLib - Marcador de Páginas",
     "description": "Seu Marcador de Páginas Virtual em forma de PWA",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#80d8ff",
+    "background_color": "#fff",
     "icons": [
         {
             "src": "\/android-icon-36x36.png",

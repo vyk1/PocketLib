@@ -59,7 +59,7 @@ export default class Home extends React.Component {
                     </div >
                 </div >
                 <div className="md-text-center">
-                    {!this.state.loaded ? (<CircularProgress />) : ""}
+                    {!this.state.loaded ? (<CircularProgress id="1" />) : ""}
                     <Button flat secondary swapTheming onClick={this.addPage.bind(this)}>Carregar mais</Button>
                 </div>
             </div >
