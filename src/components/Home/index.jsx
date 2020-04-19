@@ -1,15 +1,25 @@
 import React from 'react';
-import { CircularProgress, Button } from 'react-md';
+import { CircularProgress, Button, Card, FontIcon } from 'react-md';
 import PostListing from '../PostListing';
 
 export default class Home extends React.Component {
+    options = [{
+        title: 'Últimos Lançamentos',
+        icon: 'shuffle',
+    },
+    {
+        title: 'Aleatório',
+        icon: 'first_page',
+    }]
+
     constructor() {
         super()
 
         this.state = {
             postEdges: [],
             maxResults: 10,
-            loaded: false
+            loaded: false,
+            op: 0
         }
     }
 
@@ -17,17 +27,42 @@ export default class Home extends React.Component {
         this.getPostList()
     }
 
+    makeid(length = 2) {
+        var result = '';
+        var characters = 'abcdefghijklmnopqrstuvwxyz';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
     async getPostList() {
+        this.setState({ loaded: false })
         let list = []
-        await fetch('https://www.googleapis.com/books/v1/volumes?q=a&orderBy=newest&maxResults=' + this.state.maxResults)
+        let query = ''
+
+        if (this.state.op === 0) {
+            query = 'https://www.googleapis.com/books/v1/volumes?q=orderBy=newest'
+
+        } else {
+            let randStr = this.makeid()
+            console.log('Gerando String:');
+            console.log(randStr);
+            query = 'https://www.googleapis.com/books/v1/volumes?q=' + randStr
+        }
+
+        await fetch(query + '&maxResults=' + this.state.maxResults)
             .then((res) => {
                 res.json()
                     .then((postList) => {
                         postList.items.forEach(pL => {
+
+                            let cover = pL.volumeInfo.imageLinks ? pL.volumeInfo.imageLinks.thumbnail : "https://via.placeholder.com/350x150"
                             list.push({
-                                path: pL.accessInfo.webReaderLink,
+                                path: pL.volumeInfo.previewLink,
                                 tags: pL.volumeInfo.categories,
-                                cover: pL.volumeInfo.imageLinks.thumbnail,
+                                cover: cover,
                                 title: pL.volumeInfo.title,
                                 date: pL.volumeInfo.publishedDate,
                                 excerpt: pL.volumeInfo.description,
@@ -39,28 +74,44 @@ export default class Home extends React.Component {
             })
     }
 
-    addPage() {
-        let more = this.state.maxResults + 10
-        this.setState({ maxResults: more, loaded: false })
+    async addPage() {
+        if (this.state.op === 0) {
+            let more = this.state.maxResults + 10
+            await this.setState({ maxResults: more })
+        }
         this.getPostList()
     }
 
+    async action() {
+        if (this.state.op === 0) {
+            //exibe aleatorio
+            await this.setState({ op: 1 })
+            //exibe latest
+        } else {
+            await this.setState({ op: 0 })
+        }
+        this.setState({ postEdges: [], maxResults: 10 })
+        return this.getPostList()
+    }
+
     render() {
-
         return (
-            <div className="about-container">
-                <div className="md-text-center">
-                    <h1>Últimos livros</h1>
-                </div>
-
+            <div className="about-container md-grid mobile-fix">
+                <Card className="md-grid md-cell--8">
+                    <h1 className="md-text-center">O quê Você Quer Ler Hoje?</h1>
+                    <h3>Exibindo: {this.options[this.state.op].title}</h3>
+                    <Button flat secondary swapTheming onClick={this.action.bind(this)}>
+                        <FontIcon style={{ color: '#fff' }}>{this.options[this.state.op].icon}</FontIcon>
+                    </Button>
+                </Card>
                 <div className="md-grid md-grid--no-spacing">
                     <div className="about-container md-grid mobile-fix">
                         <PostListing postEdges={this.state.postEdges} result={this.state.maxResults} />
-                    </div >
-                </div >
+                    </div>
+                </div>
                 <div className="md-text-center">
                     {!this.state.loaded ? (<CircularProgress id="1" />) : ""}
-                    <Button flat secondary swapTheming onClick={this.addPage.bind(this)}>Carregar mais</Button>
+                    <Button flat secondary swapTheming onClick={this.addPage.bind(this)}><FontIcon>add</FontIcon></Button>
                 </div>
             </div >
         );

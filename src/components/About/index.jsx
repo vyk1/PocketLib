@@ -23,6 +23,7 @@ export default function About() {
                             <p>É só salvar esta página em sua tela inicial e sair usando.</p>
                             <p>Ajude a incrementar esse Repositório: <a href="https://github.com/vyk1/PocketLib" target="_blank" rel="noopener noreferrer"> <FontIcon style={{ color: '#f06292' }}>favorite</FontIcon></a></p>
                             <p>Créditos de imagem: <a href={link}>Wikipedia</a></p>
+                            <p>Desenvolvido por: <a href="https://vyk1.github.io/">vyk1</a></p>
                         </section>
                     </Paper>
                 </div >

@@ -7,7 +7,7 @@ class Footer extends Component {
       <footer className="footer">
         <div className="notice-container text-center">
           <div className="copyright">
-            <h4><a href="https://github.com/vyk1" target="_blank" rel="noopener noreferrer">@vyk1</a></h4>
+            <h4><a href="/sobre" target="_blank" rel="noopener noreferrer">@vyk1</a></h4>
           </div>
         </div>
       </footer>
