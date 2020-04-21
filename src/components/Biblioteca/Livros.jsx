@@ -2,10 +2,8 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Card, CardTitle, CardText, Button, GridList, Cell, FontIcon } from 'react-md';
 
-// const style = { maxWidth: 320 };
 const Livros = ({ livro, id, handleDeleteLivro, handleAddPage }) =>
 
-    // https://github.com/assuncaocharles/react-indexed-db
     <div className="md-grid md-grid--no-spacing md-cell--middle">
         <div className="md-grid md-cell--8 mobile-fix">
             <Card key={id} raise className="md-grid md-cell md-cell--12">

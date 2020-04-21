@@ -3,14 +3,16 @@ import { Card } from "react-md";
 import PropTypes from 'prop-types';
 import { TextField, Button } from "react-md";
 
+
 class AddLivro extends Component {
+  initialState = {
+    titulo: "",
+    paginas: "",
+    lidas: ""
+  }
   constructor() {
     super();
-    this.state = {
-      titulo: "",
-      paginas: "",
-      lidas: "",
-    };
+    this.state = this.initialState
     this.addLivro = this.addLivro.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }

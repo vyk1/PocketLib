@@ -16,6 +16,7 @@ import { DBConfig } from './db/DBConfig';
 import { initDB } from 'react-indexed-db';
 import About from "./components/About";
 import Home from "./components/Home";
+import Tags from "./components/Tags";
 
 initDB(DBConfig);
 
@@ -25,15 +26,10 @@ export default function App() {
     <Router>
       <Navigation>
         <Switch>
-          <Route path="/sobre">
-            <About />
-          </Route>
-          <Route path="/my-lib">
-            <Biblioteca />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/my-lib" component={Biblioteca} />
+          <Route exact path="/sobre" component={About} />
+          <Route exact path="/tags" component={Tags} />
         </Switch>
       </Navigation>
     </Router>

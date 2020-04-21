@@ -54,30 +54,34 @@ class PostPreview extends Component {
     /* eslint no-undef: "off" */
     const coverHeight = mobile ? 162 : 225;
     return (
-      <Card key={postInfo.path} raise className="md-grid md-cell md-cell--12">
-        <a style={{ textDecoration: "none" }} href={postInfo.path} target="_blank" rel="noopener noreferrer">
-          <Media style={{ height: coverHeight, paddingBottom: "0px" }}>
-            <PostCover postNode={postInfo} coverHeight={coverHeight} />
-            <MediaOverlay>
-              <CardTitle title={postInfo.title}>
-                <Button raised secondary className="md-cell--right">
-                  <FontIcon style={{ color: '#fff' }}>info</FontIcon>
-                </Button>
-              </CardTitle>
-            </MediaOverlay>
-          </Media>
-        </a>
-        <CardTitle
-          expander={expand}
-          avatar={<Avatar src={logo} role="presentation" />}
-          title={`Publicado em ${postInfo.date ? moment(postInfo.date).format('DD/MM/YYYY') : "?"}`}
-          subtitle={`${Object.is(postInfo.timeToRead, NaN) ? "?" : postInfo.timeToRead} min para ler`}
-        />
-        <CardText expandable={expand}>
-          {postInfo.excerpt}
-          <PostTags tags={postInfo.tags} />
-        </CardText>
-      </Card>
+      <div className="md-grid md-grid--no-spacing md-cell--middle">
+        <div className="md-grid md-cell--8 mobile-fix">
+          <Card key={postInfo.path} raise className="md-grid md-cell--8">
+            <a style={{ textDecoration: "none" }} href={postInfo.path} target="_blank" rel="noopener noreferrer">
+              <Media style={{ height: coverHeight, paddingBottom: "0px" }}>
+                <PostCover postNode={postInfo} coverHeight={coverHeight} />
+                <MediaOverlay>
+                  <CardTitle title={postInfo.title}>
+                    <Button raised secondary className="md-cell--right">
+                      <FontIcon style={{ color: '#fff' }}>info</FontIcon>
+                    </Button>
+                  </CardTitle>
+                </MediaOverlay>
+              </Media>
+            </a>
+            <CardTitle
+              expander={expand}
+              avatar={<Avatar src={logo} role="presentation" />}
+              title={`Publicado em ${postInfo.date ? moment(postInfo.date).format('DD/MM/YYYY') : "?"}`}
+              subtitle={`${Object.is(postInfo.timeToRead, NaN) ? "?" : postInfo.timeToRead} min para ler`}
+            />
+            <CardText expandable={expand}>
+              {postInfo.excerpt}
+              <PostTags tags={postInfo.tags} />
+            </CardText>
+          </Card>
+        </div>
+      </div>
     );
   }
 }

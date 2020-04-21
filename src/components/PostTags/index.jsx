@@ -13,11 +13,18 @@ class PostTags extends Component {
             <Link
               key={tag}
               style={{ textDecoration: "none" }}
-              to={`/tags?tag=${tag}`}
-              state={{ tag }}
+              to={`/tags?q=${tag}`}
             >
               <Chip label={tag} className="post-preview-tags" />
             </Link>
+            // <a
+            //   key={tag}
+            //   style={{ textDecoration: "none" }}
+            //   href={`/tags?q=${tag}`}
+              
+            // >
+            //   <Chip label={tag} className="post-preview-tags" />
+            // </a>
           ))}
       </div>
     );

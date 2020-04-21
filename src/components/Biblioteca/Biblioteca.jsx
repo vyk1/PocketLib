@@ -41,6 +41,7 @@ class BibliotecaPage extends Component {
                 this.componentDidMount()
             })
     }
+    
     handleAddPage(id, livro1, qtd) {
         let pI = parseInt(livro1.lidas) + qtd
 
@@ -60,10 +61,6 @@ class BibliotecaPage extends Component {
     render() {
         return (
             <div className="about-container">
-                {/* <Helmet>
-                        <title>{`Biblioteca | ${config.siteTitle}`}</title>
-                        <link rel="canonical" href={`${config.siteUrl}/biblioteca/`} />
-                    </Helmet> */}
                 <AddLivro handleAddLivro={this.handleAddLivro} />
                 <LivrosList
                     livros={this.state.livros}

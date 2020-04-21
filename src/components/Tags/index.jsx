@@ -1,63 +1,35 @@
 import React from 'react';
 import { CircularProgress, Button, Card, FontIcon } from 'react-md';
 import PostListing from '../PostListing';
+import { Link } from 'react-router-dom';
 
-export default class Home extends React.Component {
-    options = [{
-        title: 'Lançamentos',
-        icon: 'shuffle',
-    },
-    {
-        title: 'Aleatório',
-        icon: 'first_page',
-    }]
+export default class Tags extends React.Component {
 
-    constructor() {
-        super()
-
-        this.state = {
-            postEdges: [],
-            maxResults: 10,
-            loaded: false,
-            op: 0
-        }
+    state = {
+        postEdges: [],
+        tag: this.props.location.search.split('=')[1],
+        loaded: false,
+        maxResults: 10
     }
 
-    componentDidMount() {
+    async componentWillReceiveProps(nextProps) {
+        let tag = await nextProps.location.search.split('=')[1]
+        this.setState({ tag })
         this.getPostList()
-    }
-
-    makeid(length = 2) {
-        var result = '';
-        var characters = 'abcdefghijklmnopqrstuvwxyz';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
     }
 
     async getPostList() {
         this.setState({ loaded: false })
         let list = []
-        let query = ''
+        let query = 'https://www.googleapis.com/books/v1/volumes?q=subject=' + this.state.tag
 
-        if (this.state.op === 0) {
-            query = 'https://www.googleapis.com/books/v1/volumes?q=orderBy=newest'
-
-        } else {
-            let randStr = this.makeid()
-            console.log('Gerando String:');
-            console.log(randStr);
-            query = 'https://www.googleapis.com/books/v1/volumes?q=' + randStr
-        }
+        console.log(query);
 
         await fetch(query + '&maxResults=' + this.state.maxResults)
             .then((res) => {
                 res.json()
                     .then((postList) => {
                         postList.items.forEach(pL => {
-
                             let cover = pL.volumeInfo.imageLinks ? pL.volumeInfo.imageLinks.thumbnail : "https://via.placeholder.com/350x150"
                             list.push({
                                 path: pL.volumeInfo.previewLink,
@@ -75,35 +47,31 @@ export default class Home extends React.Component {
     }
 
     async addPage() {
-        if (this.state.op === 0) {
-            let more = this.state.maxResults + 10
-            await this.setState({ maxResults: more })
-        }
+        let more = this.state.maxResults + 10
+        await this.setState({ maxResults: more })
         this.getPostList()
     }
 
-    async action() {
-        if (this.state.op === 0) {
-            //exibe aleatorio
-            await this.setState({ op: 1 })
-            //exibe latest
-        } else {
-            await this.setState({ op: 0 })
-        }
-        this.setState({ postEdges: [], maxResults: 10 })
-        return this.getPostList()
+    componentDidMount() {
+        this.getPostList()
     }
-
+    redirect() {
+        return
+    }
     render() {
         return (
             <div className="about-container">
                 <div className="about-container md-grid mobile-fix">
                     <Card className="md-grid md-cell--8">
-                        <h1 className="md-text-center">O quê Você Quer Ler Hoje?</h1>
-                        <h3>Exibindo: {this.options[this.state.op].title}</h3>
-                        <Button flat secondary swapTheming onClick={this.action.bind(this)}>
-                            <FontIcon style={{ color: '#fff' }}>{this.options[this.state.op].icon}</FontIcon>
-                        </Button>
+                        <div style={{ display: 'flex' }} onClick={this.redirect.bind(this)}>
+                            <Link to="/">
+                                <FontIcon>navigate_before</FontIcon>
+                            </Link>
+                        </div>
+                        <div className="md-text-center">
+                            <h1>Categoria:</h1>
+                            <h3>{decodeURI(this.state.tag)}</h3>
+                        </div>
                     </Card>
                 </div>
                 <PostListing postEdges={this.state.postEdges} result={this.state.maxResults} />
